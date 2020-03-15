@@ -11,7 +11,7 @@
 
     <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
         <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-        <property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@192.168.106.145:1521:orcl"></property>
+        <property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@192.168.106.148:1521:orcl"></property>
         <property name="username" value="book_ex"></property>
         <property name="password" value="book_ex"></property>
     </bean>
@@ -26,5 +26,7 @@
     </bean>
 
     <mybatis-spring:scan base-package="com.thomas.mapper" />
+
+    <context:component-scan base-package="com.thomas.service" />
 
 </beans>

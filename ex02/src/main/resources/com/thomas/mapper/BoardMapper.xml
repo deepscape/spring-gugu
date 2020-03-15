@@ -52,8 +52,7 @@
 	</insert>
 
 	<select id="read" resultType="com.thomas.domain.BoardVO">
-		select * from tbl_board where bno =
-		#{bno}
+		select * from tbl_board where bno = #{bno}
 	</select>
 
 
@@ -63,12 +62,8 @@
 
 	<update id="update">
 		update tbl_board
-		set title= #{title},
-		content=#{content},
-		writer = #{writer},
-		updateDate = sysdate
-		where bno =
-		#{bno}
+		set title= #{title}, content=#{content}, writer = #{writer}, updateDate = sysdate
+		where bno = #{bno}
 	</update>
 
 	<!-- <select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
