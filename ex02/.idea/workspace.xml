@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="86f46157-3bf0-42a1-ad4f-e17d8e1b4d23" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/thomas/domain/BoardVO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/thomas/mapper/BoardMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/thomas/mapper/BoardMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/thomas/mapper/BoardMapperTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/thomas/persistence/DataSourceTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/thomas/persistence/JDBCTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/log4j.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" afterDir="false" />
-    </list>
+    <list default="true" id="86f46157-3bf0-42a1-ad4f-e17d8e1b4d23" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -174,7 +161,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1584232595792</updated>
-      <workItem from="1584232599753" duration="7234000" />
+      <workItem from="1584232599753" duration="7552000" />
     </task>
     <servers />
   </component>
