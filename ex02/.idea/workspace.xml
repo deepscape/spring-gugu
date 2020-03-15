@@ -2,15 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="86f46157-3bf0-42a1-ad4f-e17d8e1b4d23" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ex01/target/classes/META-INF/ex01.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ex01/target/classes/org/zerock/controller/HomeController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../ex01/target/classes/org/zerock/controller/HomeController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ex01/target/classes/org/zerock/controller/SampleController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../ex01/target/classes/org/zerock/controller/SampleController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ex01/target/classes/org/zerock/domain/SampleDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/../ex01/target/classes/org/zerock/domain/SampleDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ex01/target/classes/org/zerock/domain/SampleDTOList.class" beforeDir="false" afterPath="$PROJECT_DIR$/../ex01/target/classes/org/zerock/domain/SampleDTOList.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ex01/target/classes/org/zerock/domain/TodoDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/../ex01/target/classes/org/zerock/domain/TodoDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ex01/target/classes/org/zerock/exception/CommonExceptionAdvice.class" beforeDir="false" afterPath="$PROJECT_DIR$/../ex01/target/classes/org/zerock/exception/CommonExceptionAdvice.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ex01/target/test-classes/org/zerock/controller/EncodeURITest.class" beforeDir="false" afterPath="$PROJECT_DIR$/../ex01/target/test-classes/org/zerock/controller/EncodeURITest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/thomas/domain/BoardVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/thomas/mapper/BoardMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/thomas/mapper/BoardMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/thomas/mapper/BoardMapperTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/thomas/persistence/DataSourceTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/thomas/persistence/JDBCTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/log4j.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +27,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="spring-beans.schema" />
+        <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -50,8 +55,10 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/com/thomas/mapper" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Artifacts" />
@@ -60,9 +67,102 @@
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/com/thomas/mapper" />
+      <recent name="$PROJECT_DIR$/src/test/resources" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF" />
     </key>
+  </component>
+  <component name="RunManager" selected="JUnit.BoardMapperTests.testInsert">
+    <configuration name="BoardMapperTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ex02" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.thomas.mapper.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.thomas.mapper" />
+      <option name="MAIN_CLASS_NAME" value="com.thomas.mapper.BoardMapperTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BoardMapperTests.testGetList" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ex02" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.thomas.mapper.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.thomas.mapper" />
+      <option name="MAIN_CLASS_NAME" value="com.thomas.mapper.BoardMapperTests" />
+      <option name="METHOD_NAME" value="testGetList" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BoardMapperTests.testInsert" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ex02" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.thomas.mapper.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.thomas.mapper" />
+      <option name="MAIN_CLASS_NAME" value="com.thomas.mapper.BoardMapperTests" />
+      <option name="METHOD_NAME" value="testInsert" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DataSourceTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ex02" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.thomas.persistence.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.thomas.persistence" />
+      <option name="MAIN_CLASS_NAME" value="com.thomas.persistence.DataSourceTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JDBCTests.testConnection" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ex02" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.thomas.persistence.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.thomas.persistence" />
+      <option name="MAIN_CLASS_NAME" value="com.thomas.persistence.JDBCTests" />
+      <option name="METHOD_NAME" value="testConnection" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.BoardMapperTests.testInsert" />
+        <item itemvalue="JUnit.BoardMapperTests.testGetList" />
+        <item itemvalue="JUnit.BoardMapperTests" />
+        <item itemvalue="JUnit.DataSourceTests" />
+        <item itemvalue="JUnit.JDBCTests.testConnection" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -74,7 +174,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1584232595792</updated>
-      <workItem from="1584232599753" duration="2224000" />
+      <workItem from="1584232599753" duration="7234000" />
     </task>
     <servers />
   </component>
@@ -90,6 +190,22 @@
       <screen x="0" y="23" width="1920" height="1009" />
     </state>
     <state x="758" y="441" key="#com.intellij.javaee.module.view.web.EditWebRootDialog/-1440.23.1440.877/0.23.1920.1009@0.23.1920.1009" timestamp="1584233164622" />
+    <state width="1878" height="267" key="GridCell.Tab.0.bottom" timestamp="1584249590403">
+      <screen x="0" y="23" width="1920" height="1009" />
+    </state>
+    <state width="1878" height="267" key="GridCell.Tab.0.bottom/-1440.23.1440.877/0.23.1920.1009@0.23.1920.1009" timestamp="1584249590403" />
+    <state width="1878" height="267" key="GridCell.Tab.0.center" timestamp="1584249590401">
+      <screen x="0" y="23" width="1920" height="1009" />
+    </state>
+    <state width="1878" height="267" key="GridCell.Tab.0.center/-1440.23.1440.877/0.23.1920.1009@0.23.1920.1009" timestamp="1584249590401" />
+    <state width="1878" height="267" key="GridCell.Tab.0.left" timestamp="1584249590401">
+      <screen x="0" y="23" width="1920" height="1009" />
+    </state>
+    <state width="1878" height="267" key="GridCell.Tab.0.left/-1440.23.1440.877/0.23.1920.1009@0.23.1920.1009" timestamp="1584249590401" />
+    <state width="1878" height="267" key="GridCell.Tab.0.right" timestamp="1584249590402">
+      <screen x="0" y="23" width="1920" height="1009" />
+    </state>
+    <state width="1878" height="267" key="GridCell.Tab.0.right/-1440.23.1440.877/0.23.1920.1009@0.23.1920.1009" timestamp="1584249590402" />
     <state x="448" y="109" key="SettingsEditor" timestamp="1584243731708">
       <screen x="0" y="23" width="1920" height="1009" />
     </state>
@@ -98,5 +214,9 @@
       <screen x="0" y="23" width="1920" height="1009" />
     </state>
     <state x="653" y="360" key="com.intellij.ide.util.TipDialog/-1440.23.1440.877/0.23.1920.1009@0.23.1920.1009" timestamp="1584232619708" />
+    <state x="59" y="257" width="670" height="676" key="search.everywhere.popup" timestamp="1584248013914">
+      <screen x="0" y="23" width="1920" height="1009" />
+    </state>
+    <state x="59" y="257" width="670" height="676" key="search.everywhere.popup/-1440.23.1440.877/0.23.1920.1009@0.23.1920.1009" timestamp="1584248013914" />
   </component>
 </project>
