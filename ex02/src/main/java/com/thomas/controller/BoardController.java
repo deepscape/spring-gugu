@@ -25,7 +25,7 @@ public class BoardController {
 
 	@GetMapping("/register")
 	public void register() {
-
+		// 입력 페이지를 보여주는 역할만 하므로, 별도의 처리 필요 없음
 	}
 
 	@GetMapping("/list")
@@ -66,6 +66,9 @@ public class BoardController {
 	public String register(BoardVO board, RedirectAttributes rttr) {
 		log.info("register: " + board);
 		service.register(board);
+
+		// addFlashAttribute() 는 일회성으로만 데이터를 전달한다.
+		// addFlashAttribute() 로 보관된 데이터는 단 한 번만 사용할 수 있게 보관된다.
 		rttr.addFlashAttribute("result", board.getBno());
 
 		return "redirect:/board/list";
@@ -75,7 +78,7 @@ public class BoardController {
 	public void get(@RequestParam("bno") Long bno, Model model) {
 		log.info("/get or modify");
 
-		// 화면 쪽으로 해당 번호의 게실물을 전달해야 하므로
+		// 화면 쪽으로 해당 번호의 게시물을 전달해야 하므로
 		model.addAttribute("board", service.get(bno));
 	}
 
