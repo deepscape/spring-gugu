@@ -1,5 +1,6 @@
 package com.thomas.controller;
 
+import com.thomas.domain.Criteria;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,19 +29,17 @@ public class BoardController {
 		// 입력 페이지를 보여주는 역할만 하므로, 별도의 처리 필요 없음
 	}
 
-	@GetMapping("/list")
+/*	@GetMapping("/list")
 	public void list(Model model) {
 		log.info("list");
 		model.addAttribute("list", service.getList());
-	}
+	}*/
 
-	// @GetMapping("/list")
-	// public void list(Criteria cri, Model model) {
-	//
-	// log.info("list: " + cri);
-	// model.addAttribute("list", service.getList(cri));
-	//
-	// }
+	@GetMapping("/list")
+	public void list(Criteria cri, Model model) {
+		log.info("list: " + cri);
+		model.addAttribute("list", service.getList(cri));
+	}
 
 /*	@GetMapping("/list")
 	public void list(Criteria cri, Model model) {

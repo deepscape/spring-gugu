@@ -3,6 +3,7 @@ package com.thomas.service;
 import java.util.List;
 
 import com.thomas.domain.BoardVO;
+import com.thomas.domain.Criteria;
 import com.thomas.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,10 +46,16 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.delete(bno) == 1;
 	}
 
-	@Override
+/*	@Override
 	public List<BoardVO> getList() {
 		log.info("getList..........");
 		return mapper.getList();
+	}*/
+
+	@Override
+	public List<BoardVO> getList(Criteria cri) {
+		log.info("getList with Criteria .........." + cri);
+		return mapper.getListWithPaging(cri);
 	}
 
 }

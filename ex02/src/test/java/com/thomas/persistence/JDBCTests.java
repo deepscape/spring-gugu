@@ -24,10 +24,11 @@ public class JDBCTests {
         }
     }
 
+    // IDE 버전 바뀔 때, Oracle Driver 재설치 해야 하는 이슈 있었음
     @Test
     public void testConnection() {
 
-        try (Connection con = DriverManager.getConnection("jdbc:oracle:thin:@192.168.106.172:1521:orcl", "book_ex", "book_ex")) {
+        try (Connection con = DriverManager.getConnection("jdbc:oracle:thin:@192.168.106.174:1521:orcl", "book_ex", "book_ex")) {
             log.info(con);
         } catch (Exception e) {
             fail(e.getMessage());
