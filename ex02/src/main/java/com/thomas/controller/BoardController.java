@@ -1,6 +1,7 @@
 package com.thomas.controller;
 
 import com.thomas.domain.Criteria;
+import com.thomas.domain.PageDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,26 +36,22 @@ public class BoardController {
 		model.addAttribute("list", service.getList());
 	}*/
 
+/*	@GetMapping("/list")
+	public void list(Criteria cri, Model model) {
+		log.info("list: " + cri);
+		model.addAttribute("list", service.getList(cri));
+	}*/
+
 	@GetMapping("/list")
 	public void list(Criteria cri, Model model) {
 		log.info("list: " + cri);
 		model.addAttribute("list", service.getList(cri));
-	}
-
-/*	@GetMapping("/list")
-	public void list(Criteria cri, Model model) {
-
-		log.info("list: " + cri);
-		model.addAttribute("list", service.getList(cri));
-		// model.addAttribute("pageMaker", new PageDTO(cri, 123));
+		// model.addAttribute("pageMaker", new PageDTO(cri, 123));		// 테스트 용도
 
 		int total = service.getTotal(cri);
-
 		log.info("total: " + total);
-
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
-
-	}*/
+	}
 
 	/*
 		(1) 등록 작업이 끝난 후 다시 목록 화면으로 이동
@@ -73,22 +70,23 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 
-	@GetMapping({ "/get", "/modify" })
+/*	@GetMapping({ "/get", "/modify" })
 	public void get(@RequestParam("bno") Long bno, Model model) {
 		log.info("/get or modify");
 
 		// 화면 쪽으로 해당 번호의 게시물을 전달해야 하므로
 		model.addAttribute("board", service.get(bno));
-	}
-
-/*	@GetMapping({ "/get", "/modify" })
-	public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, Model model) {
-
-		log.info("/get or modify");
-		model.addAttribute("board", service.get(bno));
 	}*/
 
-	@PostMapping("/modify")
+	// 조회 페이지에서 다시 목록 페이지로 이동할 때, 페이지 번호를 유지하기 위해 Criteria 파라미터를 추가
+	// @ModelAttribute 는 자동으로 Model 에 데이터를 지정한 이름으로 담아준다.
+	@GetMapping({ "/get", "/modify" })
+	public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, Model model) {
+		log.info("/get or modify");
+		model.addAttribute("board", service.get(bno));
+	}
+
+/*	@PostMapping("/modify")
 	public String modify(BoardVO board, RedirectAttributes rttr) {
 		log.info("modify:" + board);
 
@@ -97,9 +95,10 @@ public class BoardController {
 		}
 
 		return "redirect:/board/list";
-	}
+	}*/
 
-/*	@PostMapping("/modify")
+	// 다시 목록 페이지로 이동할 때, 페이지 번호를 유지하기 위한 목적
+	@PostMapping("/modify")
 	public String modify(BoardVO board, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
 		log.info("modify:" + board);
 
@@ -113,10 +112,10 @@ public class BoardController {
 		rttr.addAttribute("keyword", cri.getKeyword());
 
 		return "redirect:/board/list";
-	}*/
+	}
 
 	// 삭제 후 페이지 이동	<- RedirectAttributes 사용
-	@PostMapping("/remove")
+/*	@PostMapping("/remove")
 	public String remove(@RequestParam("bno") Long bno, RedirectAttributes rttr) {
 		log.info("remove..." + bno);
 
@@ -125,12 +124,13 @@ public class BoardController {
 		}
 
 		return "redirect:/board/list";
-	}
+	}*/
 
-/*	@PostMapping("/remove")
+	// 다시 목록 페이지로 이동할 때, 페이지 번호를 유지하기 위한 목적
+	@PostMapping("/remove")
 	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr) {
-
 		log.info("remove..." + bno);
+
 		if (service.remove(bno)) {
 			rttr.addFlashAttribute("result", "success");
 		}
@@ -140,6 +140,6 @@ public class BoardController {
 		rttr.addAttribute("keyword", cri.getKeyword());
 
 		return "redirect:/board/list";
-	}*/
+	}
 
 }

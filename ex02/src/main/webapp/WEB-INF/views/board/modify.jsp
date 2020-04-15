@@ -80,7 +80,6 @@
             e.preventDefault();
 
             var operation = $(this).data("oper");
-
             console.log(operation);
 
             if(operation === 'remove'){

@@ -34,7 +34,8 @@
 					<c:forEach items="${list}" var="board">
 						<tr>
 							<td><c:out value="${board.bno}" /></td>
-								<%-- <td><a href='/board/get?bno=<c:out value="${board.bno}"/>'><c:out value="${board.title}"/></a></td> --%>
+							<%--<td><a href='/board/get?bno=<c:out value="${board.bno}"/>'><c:out value="${board.title}"/></a></td>--%>
+							<!-- 조회 페이지에서 List 선택하면 다시 1페이지로 돌아가는 문제를 방지하기 위해, 현재 목록 페이지의 pageNum 과 amount 전달 필요함 -->
 							<td><a class='move' href='<c:out value="${board.bno}"/>'><c:out value="${board.title}" /></a></td>
 							<td><c:out value="${board.writer}" /></td>
 							<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.regdate}" /></td>
@@ -69,28 +70,25 @@
 
 				<div class='pull-right'>
 					<ul class="pagination">
+<%--						<c:if test="${pageMaker.prev}">
+              				<li class="paginate_button previous"><a href="#">Previous</a>
+              				</li>
+            			</c:if>
 
-						<%--             <c:if test="${pageMaker.prev}">
-              <li class="paginate_button previous"><a href="#">Previous</a>
-              </li>
-            </c:if>
+						<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+						  	<li class="paginate_button"><a href="#">${num}</a></li>
+						</c:forEach>
 
-            <c:forEach var="num" begin="${pageMaker.startPage}"
-              end="${pageMaker.endPage}">
-              <li class="paginate_button"><a href="#">${num}</a></li>
-            </c:forEach>
-
-            <c:if test="${pageMaker.next}">
-              <li class="paginate_button next"><a href="#">Next</a></li>
-            </c:if> --%>
+						<c:if test="${pageMaker.next}">
+							<li class="paginate_button next"><a href="#">Next</a></li>
+						</c:if>--%>
 
 						<c:if test="${pageMaker.prev}">
 							<li class="paginate_button previous"><a href="${pageMaker.startPage -1}">Previous</a></li>
 						</c:if>
 
-						<c:forEach var="num" begin="${pageMaker.startPage}"
-								   end="${pageMaker.endPage}">
-							<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "active":""} ">
+						<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+							<li class="paginate_button ${pageMaker.cri.pageNum == num ? "active":""} ">
 								<a href="${num}">${num}</a>
 							</li>
 						</c:forEach>
@@ -98,12 +96,12 @@
 						<c:if test="${pageMaker.next}">
 							<li class="paginate_button next"><a href="${pageMaker.endPage +1 }">Next</a></li>
 						</c:if>
-
 					</ul>
 				</div>
 				<!--  end Pagination -->
 			</div>
 
+			<!-- <a> 태그는 원래의 동작을 못하도록 js 처리하고, 실제 페이지를 클릭하면 동작하는 부분은 아래 form 태그 이용해서 처리 -->
 			<form id='actionForm' action="/board/list" method='get'>
 				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
@@ -146,7 +144,7 @@
 
 		checkModal(result);
 
-		// 브라우저 '뒤로 가기' '앞으로 가기' 를 했을 때, 모달창을 띄울 필요가 없다고 표시, 가장 마지막에 추가
+		// 브라우저 '뒤로 가기' '앞으로 가기' 를 했을 때, '모달창' 을 띄울 필요가 없다고 표시, 가장 마지막에 추가
 		history.replaceState({}, null, null);
 
 		function checkModal(result) {
@@ -166,23 +164,22 @@
 			self.location = "/board/register";
 		});
 
+		// <a> 태그를 클릭해도 페이지 이동이 없도록, preventDefault() 처리하고 <form> 태그 내 pageNum 값은 href 속성값으로 변경
+		var actionForm = $("#actionForm");
+		$(".paginate_button a").on("click", function(e) {
+			e.preventDefault();
+			console.log('click');
+			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+			actionForm.submit();
+		});
 
-
-						var actionForm = $("#actionForm");
-
-						$(".paginate_button a").on("click", function(e) {
-									e.preventDefault();
-									console.log('click');
-									actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-									actionForm.submit();
-						});
-
-						$(".move").on("click", function(e) {
-									e.preventDefault();
-									actionForm.append("<input type='hidden' name='bno' value='" + $(this).attr("href") + "'>");
-									actionForm.attr("action", "/board/get");
-									actionForm.submit();
-						});
+		// 조회 페이지에서 List 선택하면 다시 1페이지로 돌아가는 문제를 방지하기 위해, 현재 목록 페이지의 pageNum 과 amount 전달 필요함
+		$(".move").on("click", function(e) {
+			e.preventDefault();
+			actionForm.append("<input type='hidden' name='bno' value='" + $(this).attr("href") + "'>");
+			actionForm.attr("action", "/board/get");
+			actionForm.submit();
+		});
 
 						var searchForm = $("#searchForm");
 
