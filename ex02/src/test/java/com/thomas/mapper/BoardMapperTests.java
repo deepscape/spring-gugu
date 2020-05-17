@@ -86,4 +86,14 @@ public class BoardMapperTests {
         int cnt = mapper.update(board);
         log.info("UPDATE COUNT - " + cnt);
     }
+
+    @Test
+    public void testSearch() {
+        Criteria cri = new Criteria();
+        cri.setKeyword("테스");
+        cri.setType("TC");
+
+        List<BoardVO> list = mapper.getListWithPaging(cri);
+        list.forEach(board -> log.info(board));
+    }
 }

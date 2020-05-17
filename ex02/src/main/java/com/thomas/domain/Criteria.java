@@ -24,4 +24,10 @@ public class Criteria {
         this.amount = amount;
     }
 
+    public String[] getTypeArr() {
+        return type == null ? new String[] {} : type.split("");
+    }
+
+    // UriComponentsBuilder <- 여러 개의 파라미터들을 연결해서 URL의 형태로 만들어주는 기능
+
 }
