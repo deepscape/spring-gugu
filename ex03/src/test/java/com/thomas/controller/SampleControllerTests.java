@@ -26,12 +26,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration({ "file:src/main/webapp/WEB-INF/spring/root-context.xml",
                         "file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"
 })
-
 @Log4j
 public class SampleControllerTests {
 
     // @Autowired는 생성자 주입, @Setter는 Setter 메소드 주입
-    @Setter(onMethod_ = { @Autowired})
+    @Setter(onMethod_ = {@Autowired})
     private WebApplicationContext ctx;
 
     private MockMvc mockMvc;
