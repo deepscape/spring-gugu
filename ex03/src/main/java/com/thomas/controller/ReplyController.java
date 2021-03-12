@@ -1,6 +1,7 @@
 package com.thomas.controller;
 
 import com.thomas.domain.Criteria;
+import com.thomas.domain.ReplyPageDTO;
 import com.thomas.domain.ReplyVO;
 import com.thomas.service.ReplyService;
 import lombok.AllArgsConstructor;
@@ -34,7 +35,7 @@ public class ReplyController {
                 : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @GetMapping(value = "/pages/{bno}/{page}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+/*    @GetMapping(value = "/pages/{bno}/{page}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public ResponseEntity<List<ReplyVO>> getList(@PathVariable("page") int page, @PathVariable("bno") Long bno) {
 
         log.info("getList.......");
@@ -43,7 +44,17 @@ public class ReplyController {
         log.info("cri");
 
         return new ResponseEntity<>(service.getList(cri, bno), HttpStatus.OK);
-    }
+    }*/
+
+    @GetMapping(value = "/pages/{bno}/{page}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public ResponseEntity<ReplyPageDTO> getList(@PathVariable("page") int page, @PathVariable("bno") Long bno) {
+
+        Criteria cri = new Criteria(page, 10);
+        log.info("get Reply List bno:" + bno);
+        log.info("cri:" + cri);
+
+        return new ResponseEntity<>(service.getListPage(cri, bno), HttpStatus.OK);
+    };
 
     @GetMapping(value = "/{rno}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
     public ResponseEntity<ReplyVO> get(@PathVariable("rno") Long rno) {

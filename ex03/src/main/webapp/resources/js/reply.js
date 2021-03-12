@@ -36,7 +36,8 @@ var replyService = (function() {
         });
     }   // function add end
 
-    function getList(param, callback, error) {
+    // 댓글 목록
+    /*function getList(param, callback, error) {
         var bno = param.bno;
         var page = param.page || 1;
 
@@ -46,6 +47,21 @@ var replyService = (function() {
             }).fail(function(xhr, status, err) {
                 if (error) {error();}
             });
+    }*/
+
+    function getList(param, callback, error) {
+        var bno = param.bno;
+        var page = param.page || 1;
+
+        $.getJSON("/replies/pages/" + bno + "/" + page + ".json",
+            function(data) {        // getJSON 을 통한 서버 응답 값 (data 또는 result 표기) 을 callback 함수로 전달
+                if (callback) {
+                    // callback(data);
+                    callback(data.replyCnt, data.list); // 댓글 개수와 목록을 가져옴
+                }
+            }).fail(function(xhr, status, err) {
+            if (error) {error();}
+        });
     }
 
     function remove(rno, callback, error) {

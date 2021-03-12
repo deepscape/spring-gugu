@@ -15,4 +15,5 @@ public interface ReplyMapper {
 
     // 2개 이상의 데이터를 파라미터로 전달하려면 1) 별도의 객체 2) Map 3) @Param
     public List<ReplyVO> getListWithPaging(@Param("cri") Criteria cri, @Param("bno") Long bno);
+    public int getCountByBno(Long bno);
 }
