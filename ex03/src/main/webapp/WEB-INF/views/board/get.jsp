@@ -197,6 +197,49 @@
             });
         });
 
+        // 댓글 조회 클릭 이벤트 처리
+        // event delegation - 동적으로 Ajax 를 통해서 <li>가 만들어지면, 이후에 이벤트를 등록해야 하기 때문에 이벤트 위임 형태로 작성해야 한다.
+        // jQuery 는 on()으로 쉽게 처리
+        $(".chat").on("click", "li", function(e){
+            let rno = $(this).data("rno");
+            // console.log(rno);
+
+            replyService.get(rno, function(reply) {
+              modalInputReply.val(reply.reply);
+              modalInputReplyer.val(reply.replyer);
+              modalInputReplyDate.val(replyService.displayTime(reply.replyDate)).attr("readonly","readonly");
+              modal.data("rno", reply.rno);
+
+              modal.find("button[id != 'modalCloseBtn']").hide();
+              modalModBtn.show();
+              modalRemoveBtn.show();
+
+              $(".modal").modal("show");
+            });
+        })
+
+        // 댓글 수정
+        modalModBtn.on("click", function(e){
+            var reply = {rno:modal.data("rno"), reply: modalInputReply.val()};
+
+            replyService.update(reply, function(result){
+                alert(result);
+                modal.modal("hide");
+                showList(1);
+            });
+        });
+
+        // 댓글 삭제
+        modalRemoveBtn.on("click", function (e) {
+            var rno = modal.data("rno");
+
+            replyService.remove(rno, function (result) {
+                alert(result);
+                modal.modal("hide");
+                showList(1);
+            });
+        });     // modalRemove end
+
     });
 </script>
 
