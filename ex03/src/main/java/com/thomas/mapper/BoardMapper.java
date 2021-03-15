@@ -2,6 +2,7 @@ package com.thomas.mapper;
 
 import com.thomas.domain.BoardVO;
 import com.thomas.domain.Criteria;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface BoardMapper {
 
     // 전체 데이터 개수 처리
     int getTotalCount(Criteria cri);
+
+    void updateReplyCnt(@Param("bno") Long bno, @Param("amount") int amount);
 }

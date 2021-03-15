@@ -36,7 +36,7 @@
 							<td><c:out value="${board.bno}" /></td>
 							<%--<td><a href='/board/get?bno=<c:out value="${board.bno}"/>'><c:out value="${board.title}"/></a></td>--%>
 							<!-- 조회 페이지에서 List 선택하면 다시 1페이지로 돌아가는 문제를 방지하기 위해, 현재 목록 페이지의 pageNum 과 amount 전달 필요함 -->
-							<td><a class='move' href='<c:out value="${board.bno}"/>'><c:out value="${board.title}" /></a></td>
+							<td><a class='move' href='<c:out value="${board.bno}"/>'><c:out value="${board.title}" /> <b>[ <c:out value="${board.replyCnt}" /> ]</b></a></td>
 							<td><c:out value="${board.writer}" /></td>
 							<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.regdate}" /></td>
 							<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.updateDate}" /></td>
