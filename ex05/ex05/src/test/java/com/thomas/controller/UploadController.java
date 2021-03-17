@@ -41,19 +41,7 @@ public class UploadController {
     }
 
     @Test
-    public void testMimeTypeCheck() {
-/*        try {
-            Path source = Paths.get("/Users/hdkim/Documents/tmp/2021/03/17/f5e701b0-317b-4620-9991-d22d6a21f050_ddd.png");
-            System.out.println(source.toString());
+    public void test001() {
 
-            MimetypesFileTypeMap mimetypesFileTypeMap = new MimetypesFileTypeMap();
-            mimetypesFileTypeMap.getContentType(source);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
-        String mimeType = URLConnection.guessContentTypeFromName("/Users/hdkim/Documents/tmp/2021/03/17/f5e701b0-317b-4620-9991-d22d6a21f050_ddd.png");
-        System.out.println(mimeType);
     }
 }
