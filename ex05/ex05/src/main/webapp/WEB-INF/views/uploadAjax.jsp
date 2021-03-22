@@ -24,7 +24,7 @@
     }
 
     .uploadResult ul li img {
-        width: 20px;
+        width: 100px;
     }
 </style>
 <body>
@@ -86,8 +86,14 @@
                 $(uploadResultArr).each(function (i, obj) {
                     // 이미지가 아닌 경우, 지정된 첨부파일 이미지 출력
                     if(!obj.image) {
-                        str += "<li><img src='/resources/img/attach.png'>" + obj.fileName + "</li>"
-                    } else { str += "<li>" + obj.fileName + "</li>"; }
+                        str += "<li><img src='/resources/img/attach.png'>" + obj.fileName + "</li>";
+                    } else {    // 이미지 -> 썸네일 호출
+                        // str += "<li>" + obj.fileName + "</li>";
+                        var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+                        str += "<li><img src='/display?fileName=" + fileCallPath + "'></li>";
+
+                        console.log(str);
+                    }
                 });
 
                 uploadResult.append(str);
@@ -103,7 +109,7 @@
                 dataType: 'json',
                 success: function(result) {
                     // alert("Uploaded");
-                    console.log(result);
+                    console.log("result: " + result);
 
                     showUploadedFile(result);     // 파일 목록 화면 출력
                     $(".uploadDiv").html(cloneObj.html());      // 파일 업로드 후 초기화

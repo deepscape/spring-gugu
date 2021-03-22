@@ -3,22 +3,19 @@ package com.thomas.controller;
 import com.thomas.domain.AttachFileDTO;
 import lombok.extern.log4j.Log4j;
 import net.coobird.thumbnailator.Thumbnailator;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.activation.MimetypesFileTypeMap;
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.net.URLConnection;
-import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -71,7 +68,8 @@ public class UploadController {
         // String mimeType = URLConnection.guessContentTypeFromName("/Users/hdkim/Documents/tmp/2021/03/17/f5e701b0-317b-4620-9991-d22d6a21f050_ddd.png");
 
         // MIMETYPE 확인하는 과정에서 많은 오류 있었음
-        String mimeType = URLConnection.guessContentTypeFromName(file.toPath().toString());
+        // 하단 MIME TYPE 없는 경우, NullPointerException 주의할 것
+        String mimeType = "" + URLConnection.guessContentTypeFromName(file.toPath().toString());
         if (mimeType.contains("image")) { return true; } else { return false; }
     }
 
@@ -121,6 +119,7 @@ public class UploadController {
 
                 // check image type file -> Thumbnail creation
                 if(checkImageType(saveFile)) {
+                    attachFileDTO.setImage(true);
                     FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
                     // 썸내일 이미지 생성
                     Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
@@ -131,7 +130,8 @@ public class UploadController {
                 list.add(attachFileDTO);
 
             } catch (Exception e) {
-                log.error(e.getMessage());
+                e.printStackTrace();
+                // log.error("error: " + e.getMessage());
             } // end catch
 
         } // end for
@@ -139,4 +139,25 @@ public class UploadController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }   // uploadAjaxPost method end
 
+    @GetMapping("/display")
+    @ResponseBody
+    public ResponseEntity<byte[]> getFile(String fileName) {
+
+        log.info("fileName: " + fileName);
+        File file = new File("/Users/hdkim/Documents/tmp/" + fileName);
+        log.info("file: " + file);
+
+        ResponseEntity<byte[]> result = null;
+
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", URLConnection.guessContentTypeFromName(file.toPath().toString()));
+
+            result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), headers, HttpStatus.OK);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+        return result;
+    }
 }
