@@ -2,6 +2,7 @@ package com.thomas.domain;
 
 import lombok.Data;
 import java.util.Date;
+import java.util.List;
 
 /*
     영속 계층 작업 순서
@@ -20,4 +21,6 @@ public class BoardVO {
     private Date regdate;
     private Date updateDate;
     private int replyCnt;
+
+    private List<BoardAttachVO> attachList;
 }

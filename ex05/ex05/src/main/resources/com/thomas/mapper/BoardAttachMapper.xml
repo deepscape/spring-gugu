@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+	(1) <mapper> 의 namespace 값을 Mapper 인터페이스와 동일한 이름을 주는 것에 주의
+	(2) <select> 태그의 id 속성값은 메서드의 이름과 일치하게 작성
+-->
+
+<mapper namespace="com.thomas.mapper.BoardAttachMapper">
+
+    <insert id="insert">
+        insert into tbl_attach (uuid, uploadpath, filename, filetype, bno)
+        values (#{uuid}, #{uploasdPath}, #{fileName}, #{fileType}, #{bno})
+    </insert>
+
+    <delete id="delete">
+        delete from tbl_attach where uuid = #{uuid}
+    </delete>
+
+    <select id="findByBno" resultType="com.thomas.domain.BoardAttachVO">
+        select * from tbl_attach where bno = #{bno}
+    </select>
+
+</mapper>
