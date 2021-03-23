@@ -11,8 +11,9 @@
     </appender>
 
     <!-- Application Loggers -->
-    <logger name="com.thomas">
+    <logger name="com.thomas" additivity="false">
         <level value="info" />
+        <appender-ref ref="console"/>
     </logger>
 
     <!-- 3rdparty Loggers -->
@@ -28,6 +29,7 @@
         <level value="info" />
     </logger>
 
+    <!-- Spring 5.2.x 에서 log 출력 내용이 달라짐 : trace 로 바꿔야 됨 -->
     <logger name="org.springframework.web">
         <level value="info" />
     </logger>
@@ -61,7 +63,7 @@
 
     <!-- Root Logger -->
     <root>
-        <priority value="warn" />
+        <priority value="off" />
         <appender-ref ref="console" />
     </root>
 
