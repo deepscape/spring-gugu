@@ -56,9 +56,14 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.update(board) == 1;
 	}
 
+	@Transactional
 	@Override
 	public boolean remove(Long bno) {
 		log.info("remove...." + bno);
+
+		// 게시물 삭제 시, 첨부 파일 모두 삭제
+		attachMapper.deleteAll(bno);
+
 		return mapper.delete(bno) == 1;
 	}
 

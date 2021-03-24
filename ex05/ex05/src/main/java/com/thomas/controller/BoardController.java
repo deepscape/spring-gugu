@@ -17,6 +17,12 @@ import com.thomas.domain.BoardVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Controller
@@ -122,6 +128,15 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 
+	// 첨부 파일 목록 조회
+	@GetMapping(value = "/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<BoardAttachVO>> getAttachList(Long bno) {
+		log.info("getAttachList " + bno);
+
+		return new ResponseEntity<>(service.getAttachList(bno), HttpStatus.OK);
+	}
+
 	// 삭제 후 페이지 이동	<- RedirectAttributes 사용
 /*	@PostMapping("/remove")
 	public String remove(@RequestParam("bno") Long bno, RedirectAttributes rttr) {
@@ -139,24 +154,50 @@ public class BoardController {
 	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr) {
 		log.info("remove..." + bno);
 
+		List<BoardAttachVO> attachList = service.getAttachList(bno);
+
 		if (service.remove(bno)) {
+			deleteFiles(attachList);
 			rttr.addFlashAttribute("result", "success");
 		}
+
+/*
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
 		rttr.addAttribute("type", cri.getType());
 		rttr.addAttribute("keyword", cri.getKeyword());
+*/
 
-		return "redirect:/board/list";
+		return "redirect:/board/list" + cri.getListLink();
 	}
 
-	// 첨부 파일 목록 조회
-	@GetMapping(value = "/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ResponseBody
-	public ResponseEntity<List<BoardAttachVO>> getAttachList(Long bno) {
-		log.info("getAttachList " + bno);
+	// 첨부 파일 삭제 처리
+	private void deleteFiles(List<BoardAttachVO> attachList) {
+		if (attachList == null || attachList.size() == 0) {
+			return;
+		}
 
-		return new ResponseEntity<>(service.getAttachList(bno), HttpStatus.OK);
+		log.info("delete attach files...................");
+		log.info(attachList);
+
+		attachList.forEach(attach -> {
+			try {
+				Path file = Paths.get("/Users/hdkim/Documents/tmp" + File.separator + attach.getUploadPath() + File.separator + attach.getUuid() + "_" + attach.getFileName());
+				log.info("delete file path: " + file.toString());
+				Files.deleteIfExists(file);
+
+				// image 여부 체크
+				String mimeType = "" + URLConnection.guessContentTypeFromName(file.toString());
+				if(mimeType.contains("image")) {
+					Path thumbNail = Paths.get( "/Users/hdkim/Documents/tmp" + File.separator  + attach.getUploadPath() + File.separator  +  "s_" + attach.getUuid() + "_" + attach.getFileName());
+					log.info("delete thumbnail file path: " + thumbNail.toString());
+					Files.delete(thumbNail);	// 썸네일 삭제 처리
+				}
+
+			} catch (IOException e) {
+				log.error("delete file error: " + e.getMessage());
+			}	// end catch
+		});		// end forEach
 	}
 
 }

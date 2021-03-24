@@ -21,4 +21,9 @@
         select * from tbl_attach where bno = #{bno}
     </select>
 
+    <!-- 게시물 삭제 시, 관련 첨부 파일 모두 삭제 -->
+    <delete id="deleteAll">
+        delete tbl_attach where bno = #{bno}
+    </delete>
+
 </mapper>
