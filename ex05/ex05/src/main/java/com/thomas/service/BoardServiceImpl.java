@@ -48,12 +48,26 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.read(bno);
 	}
 
+	@Transactional
 	@Override
 	public boolean modify(BoardVO board) {
 		log.info("modify......" + board);
 
+		// 간단한 방법으로 게시물의 모든 첨부 파일 목록을 삭제 : 하지만 폴더에는 파일이 남아 있는 문제가 생긴다. 	<- 배치 처리
+		attachMapper.deleteAll(board.getBno());
+
 		// 정상적으로 수정, 삭제가 이뤄지면 1 값이 반환됨 	<- '==' 연산자로 true, false 처리 가능
-		return mapper.update(board) == 1;
+		boolean modifyResult = mapper.update(board) == 1;
+
+		if (modifyResult && board.getAttachList() != null && board.getAttachList().size() > 0) {
+			// 삭제 했으니, 다시 첨부 파일 목록을 추가
+			board.getAttachList().forEach(attach -> {
+				attach.setBno(board.getBno());
+				attachMapper.insert(attach);
+			});
+		}
+
+		return modifyResult;
 	}
 
 	@Transactional
