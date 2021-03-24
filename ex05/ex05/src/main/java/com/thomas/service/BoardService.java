@@ -1,5 +1,6 @@
 package com.thomas.service;
 
+import com.thomas.domain.BoardAttachVO;
 import com.thomas.domain.BoardVO;
 import com.thomas.domain.Criteria;
 
@@ -14,6 +15,7 @@ public interface BoardService {
 	public boolean remove(Long bno);
 	// public List<BoardVO> getList();
 	public List<BoardVO> getList(Criteria cri);
-
 	public int getTotal(Criteria cri);
+
+	public List<BoardAttachVO> getAttachList(Long bno);		// 첨부파일 목록
 }

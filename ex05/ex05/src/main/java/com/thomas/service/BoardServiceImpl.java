@@ -2,6 +2,7 @@ package com.thomas.service;
 
 import java.util.List;
 
+import com.thomas.domain.BoardAttachVO;
 import com.thomas.domain.BoardVO;
 import com.thomas.domain.Criteria;
 import com.thomas.mapper.BoardAttachMapper;
@@ -77,6 +78,12 @@ public class BoardServiceImpl implements BoardService {
 	public int getTotal(Criteria cri) {
 		log.info("get total count");
 		return mapper.getTotalCount(cri);
+	}
+
+	@Override
+	public List<BoardAttachVO> getAttachList(Long bno) {
+		log.info("get attach list by bno" + bno);
+		return attachMapper.findByBno(bno);
 	}
 
 }

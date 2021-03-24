@@ -1,14 +1,14 @@
 package com.thomas.controller;
 
+import com.thomas.domain.BoardAttachVO;
 import com.thomas.domain.Criteria;
 import com.thomas.domain.PageDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thomas.service.BoardService;
@@ -16,6 +16,8 @@ import com.thomas.domain.BoardVO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
+
+import java.util.List;
 
 @Controller
 @Log4j
@@ -146,6 +148,15 @@ public class BoardController {
 		rttr.addAttribute("keyword", cri.getKeyword());
 
 		return "redirect:/board/list";
+	}
+
+	// 첨부 파일 목록 조회
+	@GetMapping(value = "/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<BoardAttachVO>> getAttachList(Long bno) {
+		log.info("getAttachList " + bno);
+
+		return new ResponseEntity<>(service.getAttachList(bno), HttpStatus.OK);
 	}
 
 }
