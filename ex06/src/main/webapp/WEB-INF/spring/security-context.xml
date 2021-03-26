@@ -10,12 +10,26 @@
     <!-- Artifacts 에서 Available Elements 추가하는 것 주의 !!! -->
 
     <security:http>
+        <security:intercept-url pattern="/sample/all" access="permitAll" />
+        <security:intercept-url pattern="/sample/member" access="hasRole('ROLE_MEMBER')" />
+        <security:intercept-url pattern="/sample/admin" access="hasRole('ROLE_ADMIN')" />
         <security:form-login />
     </security:http>
 
+    <!-- 스프링 시큐리티에서 가장 중요한 역할을 하는 존재 : 인증을 담당하는 AuthenticationManager (인증 매니저) -->
     <security:authentication-manager>
+        <!-- AuthenticationManager <= ProviderManager -->
+        <!-- ProviderManager 는 인증 처리를 AuthenticationProvider 타입의 객체를 이용해서 처리 -->
+        <!-- AuthenticationProvider (인증 제공자) 는 실제 인증 작업을 진행한다. -->
+        <!-- 이때 인증된 정보에는 권한 정보를 같이 전달하게 되는데, 이 처리는 UserDetailService 에서 진행 -->
+
+        <security:authentication-provider>
+            <security:user-service>
+                <security:user name="member" password="{noop}member" authorities="ROLE_MEMBER" />
+                <security:user name="admin" password="{noop}admin" authorities="ROLE_MEMBER, ROLE_ADMIN" />
+            </security:user-service>
+        </security:authentication-provider>
+
     </security:authentication-manager>
 
 </beans>
-
-
