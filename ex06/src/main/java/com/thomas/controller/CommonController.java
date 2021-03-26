@@ -20,7 +20,7 @@ public class CommonController {
     }
 
     // loginInput() 은 Get 방식으로 접근 , 에러 메시지와 로그아웃 메시지를 파라미터로 사용
-    @GetMapping("customLogin")
+    @GetMapping("/customLogin")
     public void loginInput(String error, String logout, Model model) {
 
         log.info("error: " + error);
@@ -29,4 +29,11 @@ public class CommonController {
         if (error != null) { model.addAttribute("error", "Login Error Check Your Account"); }
         if (logout != null) {model.addAttribute("logout", "Logout !!"); }
     }
+
+    @GetMapping("/customLogout")
+    public void logoutGET() {
+        log.info("custom logout");
+    }
+
+
 }
