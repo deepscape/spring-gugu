@@ -9,11 +9,20 @@
 
     <!-- Artifacts 에서 Available Elements 추가하는 것 주의 !!! -->
 
-    <security:http>
+    <bean id="customAccessDenied" class="com.thomas.security.CustomAccessDeniedHandler"></bean>
+
+    <security:http auto-config="true" use-expressions="true">
         <security:intercept-url pattern="/sample/all" access="permitAll" />
         <security:intercept-url pattern="/sample/member" access="hasRole('ROLE_MEMBER')" />
         <security:intercept-url pattern="/sample/admin" access="hasRole('ROLE_ADMIN')" />
-        <security:form-login />
+
+        <!-- 로그인 페이지 설정 -->
+        <!--<security:form-login />-->
+        <security:form-login login-page="/customLogin" />
+
+        <!-- 접근 제한 처리 - 에러 페이지 지정 -->
+        <!--<security:access-denied-handler error-page="/accessError" />-->
+        <security:access-denied-handler ref="customAccessDenied" />
     </security:http>
 
     <!-- 스프링 시큐리티에서 가장 중요한 역할을 하는 존재 : 인증을 담당하는 AuthenticationManager (인증 매니저) -->
