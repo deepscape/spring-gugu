@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
+@ContextConfiguration("file:src/main/webapp/WEB-INF/spring/applicationContext.xml")
 @Log4j
 public class ReplyMapperTests {
 

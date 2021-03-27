@@ -11,7 +11,8 @@
 
     <bean id="customAccessDenied" class="com.thomas.security.CustomAccessDeniedHandler"></bean>
     <bean id="customLoginSuccess" class="com.thomas.security.CustomLoginSuccessHandler"></bean>
-    <bean id="customPasswordEncoder" class="com.thomas.security.CustomNoOpPasswordEncoder"></bean>
+    <!--<bean id="customPasswordEncoder" class="com.thomas.security.CustomNoOpPasswordEncoder"></bean>-->
+    <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 
     <security:http auto-config="true" use-expressions="true">
         <security:intercept-url pattern="/sample/all" access="permitAll" />
@@ -39,17 +40,24 @@
         <!-- 이때 인증된 정보에는 권한 정보를 같이 전달하게 되는데, 이 처리는 UserDetailService 에서 진행 -->
 
         <security:authentication-provider>
-        <!--
+        <!-- 인증 정보를 하드 코딩한 경우
             <security:user-service>
                 <security:user name="member" password="{noop}member" authorities="ROLE_MEMBER" />
                 <security:user name="admin" password="{noop}admin" authorities="ROLE_MEMBER, ROLE_ADMIN" />
             </security:user-service>
         -->
 
+        <!-- 스프링 시큐리티 디폴트 DB TABLE 에서 인증하는 경우
             <security:jdbc-user-service data-source-ref="dataSource" />
+        -->
 
-            <!-- password 암호화 -->
-            <security:password-encoder ref="customPasswordEncoder" />
+            <security:jdbc-user-service data-source-ref="dataSource"
+                                        users-by-username-query="select userid,userpw,enabled from tbl_member where userid = ? "
+                                        authorities-by-username-query="select userid, auth from tbl_member_auth where userid = ? " />
+
+            <!-- password 암호화 : BcryptPasswordEncoder 는 스프링 시큐리티 API 에 포함 -->
+            <!--<security:password-encoder ref="customPasswordEncoder" /> -->
+            <security:password-encoder ref="bcryptPasswordEncoder" />
         </security:authentication-provider>
 
     </security:authentication-manager>

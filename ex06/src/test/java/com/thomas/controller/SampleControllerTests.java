@@ -23,8 +23,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 // Test for Controller
 @WebAppConfiguration
 
-@ContextConfiguration({ "file:src/main/webapp/WEB-INF/spring/root-context.xml",
-                        "file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"
+@ContextConfiguration({ "file:src/main/webapp/WEB-INF/spring/applicationContext.xml",
+                        "file:src/main/webapp/WEB-INF/spring/appServlet/dispatcher-servlet.xml"
 })
 @Log4j
 public class SampleControllerTests {
