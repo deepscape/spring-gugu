@@ -42,7 +42,7 @@
     </servlet-mapping>
 
     <filter>
-        <filter-name>encoding</filter-name>
+        <filter-name>encodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
         <init-param>
             <param-name>encoding</param-name>
@@ -51,10 +51,11 @@
     </filter>
 
     <filter-mapping>
-        <filter-name>encoding</filter-name>
+        <filter-name>encodingFilter</filter-name>
         <servlet-name>appServlet</servlet-name>
     </filter-mapping>
 
+    <!-- 필터의 순서에 주의할 것 : 인코딩 설정을 먼저 적용하고, 시큐리티 필터 적용 -->
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>

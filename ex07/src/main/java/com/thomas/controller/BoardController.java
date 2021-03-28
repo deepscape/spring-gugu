@@ -6,6 +6,7 @@ import com.thomas.domain.PageDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,7 @@ public class BoardController {
 	private BoardService service;
 
 	@GetMapping("/register")
+	@PreAuthorize("isAuthenticated()")		// Spring Security 적용 : 어떠한 사용자든 로그인 성공하면 게시물 등록 가능
 	public void register() {
 		// 입력 페이지를 보여주는 역할만 하므로, 별도의 처리 필요 없음
 	}
@@ -67,6 +69,7 @@ public class BoardController {
 		(3) 리턴할 때 'redirect:' 사용     <- 내부적으로 response.sendRedirect() 처리
 	 */
 	@PostMapping("/register")
+	@PreAuthorize("isAuthenticated()")
 	public String register(BoardVO board, RedirectAttributes rttr) {
 		log.info("==========================");
 		log.info("register: " + board);
@@ -112,6 +115,7 @@ public class BoardController {
 	}*/
 
 	// 다시 목록 페이지로 이동할 때, 페이지 번호를 유지하기 위한 목적
+	@PreAuthorize("principal.username == #board.writer")
 	@PostMapping("/modify")
 	public String modify(BoardVO board, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
 		log.info("modify:" + board);
@@ -150,8 +154,9 @@ public class BoardController {
 	}*/
 
 	// 다시 목록 페이지로 이동할 때, 페이지 번호를 유지하기 위한 목적
+	@PreAuthorize("principal.username == #writer")
 	@PostMapping("/remove")
-	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr) {
+	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr, String writer) {
 		log.info("remove..." + bno);
 
 		List<BoardAttachVO> attachList = service.getAttachList(bno);

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <%@include file="../includes/header.jsp"%>
 <div class="row">
@@ -58,29 +59,28 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
-
             <div class="panel-heading">Board Register</div>
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <!-- 아래 name 속성은 BoardVO 클래스의 변수와 일치해야 한다. -->
                 <form role="form" action="/board/register" method="post">
+                    <!-- CSRF token -->
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                     <div class="form-group">
-                        <label>Title</label> <input class="form-control" name='title'>
+                        <label>Title</label><input class="form-control" name='title'>
                     </div>
-
                     <div class="form-group">
                         <label>Text area</label>
                         <textarea class="form-control" rows="3" name='content'></textarea>
                     </div>
-
                     <div class="form-group">
-                        <label>Writer</label> <input class="form-control" name='writer'>
+                        <label>Writer</label>
+                        <!-- 글을 작성할 때, 작성자 이름은 로그인 ID 를 자동 입력 -->
+                        <input class="form-control" name='writer' value="<sec:authentication property='principal.username' />" readonly="readonly" />
                     </div>
-                    <button type="submit" class="btn btn-default">Submit
-                        Button</button>
+                    <button type="submit" class="btn btn-default">Submit Button</button>
                     <button type="reset" class="btn btn-default">Reset Button</button>
                 </form>
-
             </div>
             <!--  end panel-body -->
         </div>
@@ -151,6 +151,10 @@
             return true;
         }
 
+        // 첨부 파일 서버에 전송
+        var csrfHeaderName = "${_csrf.headerName}";
+        var csrfTokenValue = "${_csrf.token}";
+
         $("input[type='file']").change(function(e){
             var formData = new FormData();
             var inputFile = $("input[name='uploadFile']");
@@ -166,8 +170,10 @@
             $.ajax({
                 url: '/uploadAjaxAction',
                 processData: false,
-                contentType: false,data:
-                formData,type: 'POST',
+                contentType: false,
+                beforeSend: function(xhr) { xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); },  // CSRF 토큰 전송
+                data: formData,
+                type: 'POST',
                 dataType:'json',
                 success: function(result){
                     console.log(result);
@@ -227,6 +233,7 @@
             $.ajax({
                 url: '/deleteFile',
                 data: {fileName: targetFile, type: type},
+                beforeSend: function(xhr) { xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); },    // CSRF Token
                 dataType:'text',
                 type: 'POST',
                 success: function(result){

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
 <%@include file="../includes/header.jsp"%>
 
 <div class="row">
@@ -20,6 +22,8 @@
             <div class="panel-body">
 
                 <form role="form" action="/board/modify" method="post">
+                    <!-- CSRF token -->
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                     <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
                     <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
                     <input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>
@@ -56,8 +60,13 @@
                         <input class="form-control" name='updateDate' value='<fmt:formatDate pattern = "yyyy/MM/dd" value = "${board.updateDate}" />' readonly="readonly">
                     </div>
 
-                    <button type="submit" data-oper='modify' class="btn btn-default">Modify</button>
-                    <button type="submit" data-oper='remove' class="btn btn-danger">Remove</button>
+                    <sec:authentication property="principal" var="pinfo" />
+                    <sec:authorize access="isAuthenticated()" >     <!-- 인증된 사용자만 -->
+                        <c:if test="${pinfo.username eq board.writer}">     <!-- 본인만 수정 가능 -->
+                            <button type="submit" data-oper='modify' class="btn btn-default">Modify</button>
+                            <button type="submit" data-oper='remove' class="btn btn-danger">Remove</button>
+                        </c:if>
+                    </sec:authorize>
                     <button type="submit" data-oper='list' class="btn btn-info">List</button>
                 </form>
             </div> <!--  end panel-body -->
@@ -227,7 +236,7 @@
             });//end getjson
         })();//end function
 
-        // 사용자가 파일을 삭제한 상태에서, 게시물을 수정하지 않고 빠져 나갔을 때를 대비
+        // 사용자가 파일을 삭제한 상태에서, 게시물을 수정하지 않고 빠져 나갔을 때를 대비 : 최종 컨펌 전까지는 파일 삭제를 하지 않음
         $(".uploadResult").on("click", "button", function(e){
             console.log("delete file");
 
@@ -246,6 +255,10 @@
             return true;
         }
 
+        // 첨부 파일 서버에 전송
+        var csrfHeaderName = "${_csrf.headerName}";
+        var csrfTokenValue = "${_csrf.token}";
+
         $("input[type='file']").change(function(e){
             var formData = new FormData();
             var inputFile = $("input[name='uploadFile']");
@@ -260,6 +273,7 @@
                 url: '/uploadAjaxAction',
                 processData: false,
                 contentType: false,
+                beforeSend: function(xhr) { xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); },  // CSRF 토큰 전송
                 data:formData,
                 type: 'POST',
                 dataType:'json',

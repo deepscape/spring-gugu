@@ -9,6 +9,7 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class ReplyController {
 
     private ReplyService service;
 
+    @PreAuthorize("isAuthenticated()")      // 댓글 작성자가 로그인한 사용자 인지 체크
     @PostMapping(value = "/new", consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
     public ResponseEntity<String> create(@RequestBody ReplyVO vo) {
 
@@ -64,16 +66,19 @@ public class ReplyController {
         return new ResponseEntity<>(service.get(rno), HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/{rno}", produces = {MediaType.TEXT_PLAIN_VALUE})
-    public ResponseEntity<String> remove(@PathVariable("rno") Long rno) {
+    @PreAuthorize("principal.username == #vo.replyer")      // 댓글 작성자와 로그인한 사용자가 일치하는지 확인하고, 삭제 작업 진행
+    @DeleteMapping(value = "/{rno}")
+    public ResponseEntity<String> remove(@RequestBody ReplyVO vo, @PathVariable("rno") Long rno) {
 
         log.info("remove: " + rno);
+        log.info("replyer: " + vo.getReplyer());
 
         return service.remove(rno) == 1
                 ? new ResponseEntity<>("success", HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @PreAuthorize("principal.username == #vo.replyer")      // 댓글 작성자와 로그인한 사용자가 일치하는지 확인하고, 수정 작업 진행
     @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH},
             value = "/{rno}",
             consumes = "application/json",

@@ -10,7 +10,7 @@
     <!-- Artifacts 에서 Available Elements 추가하는 것 주의 !!! -->
 
     <bean id="customAccessDenied" class="com.thomas.security.CustomAccessDeniedHandler"></bean>
-    <bean id="customLoginSuccess" class="com.thomas.security.CustomLoginSuccessHandler"></bean>
+    <!--<bean id="customLoginSuccess" class="com.thomas.security.CustomLoginSuccessHandler"></bean>-->
     <!--<bean id="customPasswordEncoder" class="com.thomas.security.CustomNoOpPasswordEncoder"></bean>-->
     <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
     <bean id="customUserDetailsService" class="com.thomas.security.CustomUserDetailsService"></bean>
@@ -22,7 +22,8 @@
 
         <!-- 로그인 페이지 설정 -->
         <!--<security:form-login />-->
-        <security:form-login login-page="/customLogin" authentication-success-handler-ref="customLoginSuccess" />
+        <!--<security:form-login login-page="/customLogin" authentication-success-handler-ref="customLoginSuccess" />-->
+        <security:form-login login-page="/customLogin" />
 
         <!-- 접근 제한 처리 - 에러 페이지 지정 -->
         <!--<security:access-denied-handler error-page="/accessError" />-->

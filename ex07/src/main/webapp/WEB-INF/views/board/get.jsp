@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <%@include file="../includes/header.jsp"%>
 <div class="row">
@@ -36,7 +37,14 @@
                         <button data-oper='list' class="btn btn-info">
                         <a href="/board/list">List</a></button> --%>
 
-                <button data-oper='modify' class="btn btn-default">Modify</button>
+                <!-- Spring Security : 인증된 사용자만 수정 가능하도록 / 로그인 관련 정보 principal 은 pinfo 변수로 할당 -->
+                <sec:authentication property="principal" var="pinfo" />
+                <sec:authorize access="isAuthenticated()" >     <!-- 인증된 사용자만 -->
+                    <c:if test="${pinfo.username eq board.writer}">     <!-- 본인만 수정 가능 -->
+                        <button data-oper='modify' class="btn btn-default">Modify</button>
+                    </c:if>
+                </sec:authorize>
+
                 <button data-oper='list' class="btn btn-info">List</button>
 
 <%--                <form id='operForm' action="/board/modify" method="get">
@@ -133,7 +141,9 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <i class="fa fa-comments fa-fw"></i> Reply
-                <button id='addReplyBtn' class='btn btn-primary btn-xs pull-right'>New Reply</button>
+                <sec:authorize access="isAuthenticated()">      <!-- 로그인한 사용자만 -->
+                    <button id='addReplyBtn' class='btn btn-primary btn-xs pull-right'>New Reply</button>
+                </sec:authorize>
             </div>
 
             <!-- /.panel-heading -->
@@ -316,17 +326,36 @@
         var modalRemoveBtn = $("#modalRemoveBtn");
         var modalRegisterBtn = $("#modalRegisterBtn");
 
+        <!-- 로그인한 사용자가 댓글 작성자가 되도록 처리 -->
+        var replyer = null;
+
+        <sec:authorize access="isAuthenticated()">
+            replyer = "<sec:authentication property='principal.username'/>";
+        </sec:authorize>
+
+        var csrfHeaderName = "${_csrf.headerName}";
+        var csrfTokenValue = "${_csrf.token}";
+
         $("#modalCloseBtn").on("click", function(e){
             modal.modal('hide');
         });
 
         $("#addReplyBtn").on("click", function(e){
             modal.find("input").val("");
+            modal.find("input[name='replyer']").val(replyer);
             modalInputReplyDate.closest("div").hide();
             modal.find("button[id !='modalCloseBtn']").hide();
+
             modalRegisterBtn.show();
+
             $(".modal").modal("show");
         });
+
+        // Ajax 사용 시 CSRF Token 같이 전송
+        $(document).ajaxSend(function(e, xhr, options) {
+            // 아래 파라미터 변수, 순서 바뀌지 않도록 주의
+            xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+        })
 
         // 댓글 등록
         modalRegisterBtn.on("click",function(e){
@@ -370,7 +399,27 @@
 
         // 댓글 수정
         modalModBtn.on("click", function(e){
-            var reply = {rno:modal.data("rno"), reply: modalInputReply.val()};
+            var originalReplyer = modalInputReplyer.val();
+            console.log("Original Replyer: " + originalReplyer);
+
+            // reply 객체에 replyer(작성자) 추가해서 서버에 전송
+            var reply = {
+                rno:modal.data("rno"),
+                reply: modalInputReply.val(),
+                replyer: originalReplyer
+            };
+
+            if(!replyer) {
+                alert("로그인 후 수정이 가능");
+                modal.modal("hide");
+                return;
+            }
+
+            if(replyer != originalReplyer) {
+                alert("자신이 작성한 댓글만 수정 가능");
+                modal.modal("hide");
+                return;
+            }
 
             replyService.update(reply, function(result){
                 alert(result);
@@ -383,7 +432,26 @@
         modalRemoveBtn.on("click", function (e) {
             var rno = modal.data("rno");
 
-            replyService.remove(rno, function (result) {
+            console.log("RNO" + rno);
+            console.log("REPLYER" + replyer);
+
+            if(!replyer) {
+                alert("로그인 후 삭제가 가능");
+                modal.modal("hide");
+                return;
+            }
+
+            var originalReplyer = modalInputReplyer.val();
+            console.log("Original Replyer: " + originalReplyer);
+
+            if(replyer != originalReplyer) {
+                alert("자신이 작성한 댓글만 삭제 가능");
+                modal.modal("hide");
+                return;
+            }
+
+            // JS module pattern : reply.js 에서 수정 필요
+            replyService.remove(rno, originalReplyer, function (result) {
                 alert(result);
                 modal.modal("hide");
                 showList(pageNum);
