@@ -29,7 +29,10 @@
         <security:access-denied-handler ref="customAccessDenied" />
 
         <!-- 로그 아웃 처리 -->
-        <security:logout logout-url="/customLogout" invalidate-session="true" />
+        <security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me,JSESSION_ID" />
+
+        <!-- remember-me -->
+        <security:remember-me data-source-ref="dataSource" token-validity-seconds="604880" />
 
         <!--<security:csrf disabled="true" />-->
     </security:http>

@@ -130,3 +130,15 @@ create table tbl_member_auth (
      auth varchar2(50) not null,
      constraint fk_member_auth foreign key(userid) references tbl_member(userid)
 );
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+// 자동 로그인(remember-me)
+
+create table persistent_logins (
+    username varchar2(64) not null,
+    series varchar2(64) primary key,
+    token varchar2(64) not null,
+    last_used timestamp not null
+);
