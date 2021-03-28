@@ -2,7 +2,6 @@ package com.thomas.security;
 
 import lombok.extern.log4j.Log4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import javax.servlet.ServletException;
